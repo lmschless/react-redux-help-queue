@@ -5,6 +5,8 @@ import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
+// a = actions (shorthand)
+import * as a from './../actions';
 
 class TicketControl extends React.Component {
 	constructor(props) {
@@ -25,9 +27,10 @@ class TicketControl extends React.Component {
 			});
 		} else {
 			const { dispatch } = this.props;
-			const action = {
-				type: 'TOGGLE_FORM'
-			};
+			// const action = {
+			// 	type: 'TOGGLE_FORM'
+			// };
+			const action = a.toggleForm(); // new way after using action creators
 			dispatch(action);
 			// old way using local state below
 
@@ -41,21 +44,28 @@ class TicketControl extends React.Component {
 		const { dispatch } = this.props;
 		// Need to deconstruct values from newTicket so they
 		// can be passed into reducer.
-		const { id, names, location, issue } = newTicket;
-		const action = {
-			type: 'ADD_TICKET',
-			id: id,
-			names: names,
-			location: location,
-			issue: issue
-		};
-		// this dispatches the action and automatically updates the store.
-		dispatch(action);
+		// const { id, names, location, issue } = newTicket;
+		// const action = {
+		// 	type: 'ADD_TICKET',
+		// 	id: id,
+		// 	names: names,
+		// 	location: location,
+		// 	issue: issue
+		// };
 
-		const action2 = {
-			type: 'TOGGLE_FORM'
-		};
+		// new way using action creators
+		const action = a.addTicket(newTicket);
+		dispatch(action);
+		const action2 = a.toggleForm();
 		dispatch(action2);
+
+		// this dispatches the action and automatically updates the store.
+		// dispatch(action);
+
+		// const action2 = {
+		// 	type: 'TOGGLE_FORM'
+		// };
+		// dispatch(action2);
 
 		//this.setState({ formVisibleOnPage: false });
 
@@ -79,10 +89,13 @@ class TicketControl extends React.Component {
 
 	handleDeletingTicket = (id) => {
 		const { dispatch } = this.props;
-		const action = {
-			type: 'DELETE_TICKET',
-			id: id
-		};
+		// const action = {
+		// 	type: 'DELETE_TICKET',
+		// 	id: id
+		// };
+
+		// using action creators
+		const action = a.deleteTicket(id);
 		dispatch(action);
 		this.setState({ selectedTicket: null });
 
@@ -101,14 +114,17 @@ class TicketControl extends React.Component {
 
 	handleEditingTicketInList = (ticketToEdit) => {
 		const { dispatch } = this.props;
-		const { id, names, location, issue } = ticketToEdit;
-		const action = {
-			type: 'ADD_TICKET',
-			id: id,
-			names: names,
-			location: location,
-			issue: issue
-		};
+		// const { id, names, location, issue } = ticketToEdit;
+		// const action = {
+		// 	type: 'ADD_TICKET',
+		// 	id: id,
+		// 	names: names,
+		// 	location: location,
+		// 	issue: issue
+		// };
+
+		// using action creators
+		const action = a.addTicket(ticketToEdit);
 		dispatch(action);
 		this.setState({
 			editing: false,
