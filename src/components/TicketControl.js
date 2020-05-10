@@ -10,7 +10,7 @@ class TicketControl extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			formVisibleOnPage: false,
+			//formVisibleOnPage: false,
 			selectedTicket: null,
 			editing: false
 		};
@@ -24,9 +24,16 @@ class TicketControl extends React.Component {
 				editing: false
 			});
 		} else {
-			this.setState((prevState) => ({
-				formVisibleOnPage: !prevState.formVisibleOnPage
-			}));
+			const { dispatch } = this.props;
+			const action = {
+				type: 'TOGGLE_FORM'
+			};
+			dispatch(action);
+			// old way using local state below
+
+			// this.setState((prevState) => ({
+			// 	formVisibleOnPage: !prevState.formVisibleOnPage
+			// }));
 		}
 	};
 
@@ -44,7 +51,13 @@ class TicketControl extends React.Component {
 		};
 		// this dispatches the action and automatically updates the store.
 		dispatch(action);
-		this.setState({ formVisibleOnPage: false });
+
+		const action2 = {
+			type: 'TOGGLE_FORM'
+		};
+		dispatch(action2);
+
+		//this.setState({ formVisibleOnPage: false });
 
 		// old, pre-redux way to handle ticketlist state.
 
@@ -132,7 +145,7 @@ class TicketControl extends React.Component {
 				/>
 			);
 			buttonText = 'Return to Ticket List';
-		} else if (this.state.formVisibleOnPage) {
+		} else if (this.props.formVisibleOnPage) {
 			currentlyVisibleState = (
 				<NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />
 			);
@@ -163,7 +176,8 @@ const mapStateToProps = (state) => {
 	return {
 		// Key-value pairs of state to be mapped from
 		// Redux to React component go here.
-		masterTicketList: state
+		masterTicketList: state.masterTicketList,
+		formVisibleOnPage: state.formVisibleOnPage
 	};
 };
 
