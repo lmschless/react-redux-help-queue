@@ -29,13 +29,17 @@ describe('help queue actions', () => {
 				names: 'Jo and Jasmine',
 				location: '3E',
 				issue: 'Redux not working!',
+				timeOpen: 0,
+				formattedWaitTime: 'A few seconds',
 				id: 1
 			})
 		).toEqual({
-			type: 'ADD_TICKET',
+			type: c.ADD_TICKET,
 			names: 'Jo and Jasmine',
 			location: '3E',
 			issue: 'Redux not working!',
+			timeOpen: 0,
+			formattedWaitTime: 'A few seconds',
 			id: 1
 		});
 	});
