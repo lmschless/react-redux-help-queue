@@ -32,7 +32,12 @@ class TicketControl extends React.Component {
 
 	// this method will handle updating redux state
 	updateTicketElapsedWaitTime = () => {
+		// Start by deconstructing the dispatch function from this.props.
 		const { dispatch } = this.props;
+		// iterate over the values in the masterTicketList. For each ticket,
+		// we determine the formattedWaitTime using the fromNow() method from Moment.js. You may wonder how we're able to use this method without importing Moment.js
+		// we instantiated the Moment object in another component and the timeOpen property already has access to the fromNow() method.
+		// Finally, we create and dispatch an action to update the time for a ticket.
 		Object.values(this.props.masterTicketList).forEach((ticket) => {
 			const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
 			const action = a.updateTime(ticket.id, newFormattedWaitTime);
